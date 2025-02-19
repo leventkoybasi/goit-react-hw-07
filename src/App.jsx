@@ -1,14 +1,14 @@
-import { useState } from "react";
-import style from "./App.module.css";
-import { contactData } from "./data/contactData.js";
+import { useState } from 'react';
+import style from './App.module.css';
+import { contactData } from './data/contactData.js';
 
 // Components
-import ContactForm from "./components/ContactForm";
-import ContactList from "./components/ContactList";
-import SearchBox from "./components/SearchBox";
-import ErrorModal from "./components/ErrorModal.jsx";
+import ContactForm from './components/ContactForm';
+import ContactList from './components/ContactList';
+import SearchBox from './components/SearchBox';
+import ErrorModal from './components/ErrorModal.jsx';
 // Variables
-const savedContacts = window.localStorage.getItem("Contacts");
+const savedContacts = window.localStorage.getItem('Contacts');
 
 function App() {
   const getContact = () => {
@@ -23,7 +23,7 @@ function App() {
   const handleSubmit = (values, actions) => {
     setContact((prevContacts) => {
       const updatedContacts = [...prevContacts, values];
-      window.localStorage.setItem("Contacts", JSON.stringify(updatedContacts));
+      window.localStorage.setItem('Contacts', JSON.stringify(updatedContacts));
       return updatedContacts;
     });
     actions.resetForm();
@@ -36,7 +36,7 @@ function App() {
 
   //Search Action
   const handleSearch = (searchValue) => {
-    if (searchValue.trim() === "") {
+    if (searchValue.trim() === '') {
       if (savedContacts) {
         setContact(JSON.parse(savedContacts));
       } else if (!savedContacts) {
@@ -58,7 +58,7 @@ function App() {
     } else {
       setError(false);
       setContact(filteredContacts);
-      searchValue = "";
+      searchValue = '';
     }
   };
   return (
@@ -68,7 +68,7 @@ function App() {
           <div className='mb-4 border-bottom pb-4 fs-xxl-1 fs-lg-4'>
             <h1 className={`${style.mainTitle} text-white text-start mt-5`}>
               <i className='bi bi-telephone-fill me-4 '></i>
-              Phonebook
+              Phonebook With Smart Sync (Redux)
             </h1>
           </div>
           <div className='row pt-5 '>
