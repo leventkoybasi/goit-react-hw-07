@@ -14,12 +14,18 @@ export const contactSlice = createSlice({
       return state.filter((contact) => contact.id !== action.payload);
     },
     searchContact: (state, action) => {
-      return state.find((contact) =>
-        contact.name.toLowerCase().includes(action.payload.toLowerCase())
-      );
+      const searchTerm = action.payload ? action.payload.toLowerCase() : '';
+      if (searchTerm === '') {
+        return initialState;
+      }
+      return state.filter((contact) => contact.name.toLowerCase().includes(searchTerm));
+    },
+    searchContactDelete: () => {
+      return initialState;
     },
   },
 });
 
-export const { addContact, deleteContact, searchContact } = contactSlice.actions;
+export const { addContact, deleteContact, searchContact, searchContactDelete } =
+  contactSlice.actions;
 export default contactSlice.reducer;

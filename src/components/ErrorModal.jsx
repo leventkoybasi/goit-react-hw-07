@@ -1,11 +1,15 @@
-/* eslint-disable react/prop-types */
 /* eslint-disable react/no-unescaped-entities */
-import style from "../App.module.css";
+import style from '../App.module.css';
+import { useDispatch } from 'react-redux';
+import { hideError } from '../store/errorSlice.js';
 
-function ErrorModal({ onClose }) {
+function ErrorModal() {
+  // const error = useSelector((state) => state.error);
+  const dispatch = useDispatch();
+
   const handleClose = (e) => {
     if (e.target.className.includes(style.modalBackdrop)) {
-      onClose();
+      dispatch(hideError());
     }
   };
 
