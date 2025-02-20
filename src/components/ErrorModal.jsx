@@ -2,6 +2,7 @@
 import style from '../App.module.css';
 import { useDispatch } from 'react-redux';
 import { hideError } from '../store/errorSlice.js';
+import { searchContactDelete } from '../store/contactSlice.js';
 // import { searchContact } from '../store/contactSlice.js';
 
 function ErrorModal() {
@@ -15,6 +16,7 @@ function ErrorModal() {
       e.target.classList.contains('bi-x-circle-fill')
     ) {
       dispatch(hideError());
+      dispatch(searchContactDelete());
     }
   };
 

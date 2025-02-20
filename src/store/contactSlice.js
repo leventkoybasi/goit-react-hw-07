@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { contactData } from '../data/contactData';
 
-const initialState = contactData;
+export const initialState = contactData;
 
 export const contactSlice = createSlice({
   name: 'contact',
