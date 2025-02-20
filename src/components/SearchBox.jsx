@@ -1,6 +1,7 @@
 import { Formik, Form, Field } from 'formik';
 import { useDispatch } from 'react-redux';
 import { searchContact, searchContactDelete } from '../store/contactSlice.js';
+import { showError } from '../store/errorSlice.js';
 
 const initialFormValues = {
   search: '',
@@ -19,6 +20,8 @@ function SearchBox() {
 
     if (searchValue.trim() === '') {
       dispatch(searchContact(''));
+    } else if (searchValue.trim() !== searchValue) {
+      dispatch(showError());
     } else {
       dispatch(searchContact(searchValue));
     }
@@ -39,11 +42,11 @@ function SearchBox() {
             />
             {values.search.trim() ? (
               <span className='input-group-text' onClick={() => setFieldValue('search', '')}>
-                <i className='bi bi-x-square'></i>
+                <i className='bi bi-x-square text-danger fs-4'></i>
               </span>
             ) : (
               <span className='input-group-text' onClick={() => dispatch(searchContactDelete())}>
-                <i className='bi bi-search fs-4'></i>
+                <i className='bi bi-search fs-4 '></i>
               </span>
             )}
           </div>
