@@ -1,18 +1,26 @@
-/* eslint-disable react/prop-types */
-import { Formik, Form, Field, ErrorMessage } from "formik";
-import formSchema from "../js/formSchema";
-import { nanoid } from "nanoid";
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import formSchema from '../js/formSchema';
+import { nanoid } from 'nanoid';
+import { useDispatch } from 'react-redux';
+import { addContact } from '../store/contactSlice.js';
 
 const initialFormValues = {
-  name: "",
-  phone: "",
-  email: "",
+  name: '',
+  phone: '',
+  email: '',
 };
 
-function ContactForm({ handleSubmit }) {
-  const onSubmit = (values, actions) => {
-    const uniqueId = nanoid();
-    handleSubmit({ ...values, id: uniqueId }, actions);
+function ContactForm() {
+  const dispatch = useDispatch();
+  // const contacts = useSelector((state) => state.contact);
+
+  const handleSubmit = (values, actions) => {
+    const newContact = {
+      id: nanoid(),
+      ...values,
+    };
+    dispatch(addContact(newContact)); // Yeni kişiyi ekliyoruz
+    actions.resetForm();
   };
 
   return (
@@ -20,10 +28,14 @@ function ContactForm({ handleSubmit }) {
       <h2 className='text-white mt-5 mb-4 fs-4'>
         <i className='bi bi-pencil-fill me-4'></i>Add New Contact
       </h2>
-      <Formik initialValues={initialFormValues} validationSchema={formSchema} onSubmit={onSubmit}>
+      <Formik
+        initialValues={initialFormValues} // Form başlangıç değerleri
+        validationSchema={formSchema}
+        onSubmit={handleSubmit}
+      >
         <Form className='d-flex flex-column gap-3'>
           <div className='form-group position-relative'>
-            <i className='bi bi-pencil position-absolute' style={{ top: "15px", left: "10px" }}></i>
+            <i className='bi bi-pencil position-absolute' style={{ top: '15px', left: '10px' }}></i>
             <Field
               type='text'
               name='name'
@@ -35,7 +47,7 @@ function ContactForm({ handleSubmit }) {
           <div className='form-group position-relative'>
             <i
               className='bi bi-telephone position-absolute'
-              style={{ top: "15px", left: "10px" }}
+              style={{ top: '15px', left: '10px' }}
             ></i>
             <Field
               type='number'
@@ -48,7 +60,7 @@ function ContactForm({ handleSubmit }) {
           <div className='form-group position-relative'>
             <i
               className='bi bi-envelope position-absolute'
-              style={{ top: "15px", left: "10px" }}
+              style={{ top: '15px', left: '10px' }}
             ></i>
             <Field
               type='email'

@@ -1,12 +1,14 @@
-/* eslint-disable react/prop-types */
-import Contact from "./Contact";
-import style from "../App.module.css";
+import Contact from './Contact';
+import style from '../App.module.css';
+import { useSelector, useDispatch } from 'react-redux';
+import { deleteContact } from '../store/contactSlice.js';
 
-function ContactList({ contact, setContact }) {
+function ContactList() {
+  const contacts = useSelector((state) => state.contact);
+  const dispatch = useDispatch();
+
   const handleDelete = (id) => {
-    const updatedContacts = contact.filter((item) => item.id !== id);
-    setContact(updatedContacts);
-    window.localStorage.setItem("Contacts", JSON.stringify(updatedContacts));
+    dispatch(deleteContact(id));
   };
 
   return (
@@ -22,8 +24,13 @@ function ContactList({ contact, setContact }) {
           </tr>
         </thead>
         <tbody>
-          {contact.map((item, index) => (
-            <Contact key={item.id} item={item} index={index} onDelete={handleDelete} />
+          {contacts.map((item, index) => (
+            <Contact
+              key={item.id}
+              item={item}
+              index={index}
+              onDelete={() => handleDelete(item.id)}
+            />
           ))}
         </tbody>
       </table>
