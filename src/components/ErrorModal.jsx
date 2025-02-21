@@ -19,7 +19,7 @@ function ErrorModal() {
     }
   };
 
-  if (!error) return null; // Eğer hata yoksa, modalı gösterme
+  if (!error) return null;
 
   return (
     <>

@@ -24,14 +24,11 @@ function SearchBox() {
     setFieldValue('search', searchValue);
 
     if (searchValue.trim() === '') {
-      // Eğer searchTerm boş ise, searchContactDelete ile state'i temizle
       dispatch(searchContactDelete());
       dispatch(getContact());
     } else if (/[^a-zA-Z0-9 ]/g.test(searchValue)) {
-      // Geçersiz karakter varsa, hata göster
       dispatch(showError());
     } else {
-      // Geçerli bir searchTerm ise, searchContact thunk'ını çağır
       dispatch(searchContact(searchValue));
     }
   };

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import Contact from './Contact';
 import style from '../App.module.css';
 import { useSelector, useDispatch } from 'react-redux';
