@@ -6,7 +6,7 @@ import { searchContactDelete } from '../store/contactSlice';
 
 function ErrorModal() {
   const dispatch = useDispatch();
-  const error = useSelector((state) => state.error); // errorSlice'daki state'i dinliyoruz
+  const error = useSelector((state) => state.error);
 
   const handleClose = (e) => {
     if (
