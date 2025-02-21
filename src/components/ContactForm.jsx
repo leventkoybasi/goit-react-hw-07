@@ -1,6 +1,6 @@
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import formSchema from '../js/formSchema';
-import { nanoid } from 'nanoid';
+// import { nanoid } from 'nanoid';
 import { useDispatch } from 'react-redux';
 import { addContact } from '../store/contactSlice.js';
 
@@ -14,13 +14,20 @@ function ContactForm() {
   const dispatch = useDispatch();
   // const contacts = useSelector((state) => state.contact);
 
-  const handleSubmit = (values, actions) => {
+  const handleSubmit = async (values, actions) => {
     const newContact = {
-      id: nanoid(),
-      ...values,
+      name: values.name,
+      number: values.phone,
+      email: values.email,
     };
-    dispatch(addContact(newContact));
-    actions.resetForm();
+
+    try {
+      const resultAction = await dispatch(addContact(newContact)).unwrap();
+      console.log('Yeni kişi eklendi:', resultAction);
+      actions.resetForm();
+    } catch (error) {
+      console.error('Kişi eklenirken hata oluştu:', error);
+    }
   };
 
   return (

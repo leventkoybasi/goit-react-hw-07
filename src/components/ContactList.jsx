@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import Contact from './Contact';
 import style from '../App.module.css';
 import { useSelector, useDispatch } from 'react-redux';
@@ -12,7 +11,7 @@ function ContactList() {
 
   useEffect(() => {
     dispatch(getContact());
-  }, []);
+  }, [dispatch]);
 
   const handleDelete = (id) => {
     dispatch(deleteContact(id));
@@ -31,6 +30,15 @@ function ContactList() {
           </tr>
         </thead>
         <tbody>
+          {/* {contacts.map((item, index) => (
+            <Contact
+              key={item.id}
+              item={item}
+              index={index}
+              onDelete={() => handleDelete(item.id)}
+            />
+          ))} */}
+
           {contacts.map((item, index) => (
             <Contact
               key={item.id}

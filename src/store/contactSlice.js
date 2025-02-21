@@ -14,29 +14,41 @@ const getContact = createAsyncThunk('contact/getContact', async () => {
   }
 });
 
+const addContact = createAsyncThunk('contact/addContact', async (contact) => {
+  try {
+    const response = await axios.post(API_URL, contact);
+    return response.data;
+  } catch (error) {
+    console.error('addContact icerisinde hata meydana geldi.', error);
+    throw error;
+  }
+});
+
 export const contactSlice = createSlice({
   name: 'contact',
   initialState: {
     data: [],
-    status: 'dile',
+    status: 'idle',
     error: null,
   },
   reducers: {
-    addContact: (state, action) => {
-      state.push(action.payload);
-    },
+    // addContact: (state, action) => {
+    //   state.push(action.payload);
+    // },
     deleteContact: (state, action) => {
       return state.filter((contact) => contact.id !== action.payload);
     },
     searchContact: (state, action) => {
       const searchTerm = action.payload ? action.payload.toLowerCase() : '';
-      if (searchTerm === '') {
-        // return initialState;
-      }
-      return state.filter((contact) => contact.name.toLowerCase().includes(searchTerm));
+      // if (searchTerm === '') {
+      //   // return initialState;
+      // }
+      // return state.filter((contact) => contact.name.toLowerCase().includes(searchTerm));
+      state.data = state.data.filter((contact) => contact.name.toLowerCase().includes(searchTerm));
     },
     searchContactDelete: () => {
       // return initialState;
+      return { data: [], status: 'idle', error: null };
     },
   },
   extraReducers: (builder) => {
@@ -44,6 +56,7 @@ export const contactSlice = createSlice({
     //getContact.rejected
     //getContact.pending
     builder
+      // getContact
       .addCase(getContact.pending, (state) => {
         state.status = 'loading';
       })
@@ -54,11 +67,22 @@ export const contactSlice = createSlice({
       .addCase(getContact.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.error.message;
+      })
+      // addContact
+      .addCase(addContact.fulfilled, (state, action) => {
+        state.data.push(action.payload);
+        state.status = 'succeeded';
+      })
+      .addCase(addContact.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(addContact.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.error.message;
       });
   },
 });
 
-export const { addContact, deleteContact, searchContact, searchContactDelete } =
-  contactSlice.actions;
-export { getContact };
+export const { deleteContact, searchContact, searchContactDelete } = contactSlice.actions;
+export { getContact, addContact };
 export default contactSlice.reducer;
