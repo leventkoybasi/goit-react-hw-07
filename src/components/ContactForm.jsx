@@ -19,7 +19,7 @@ function ContactForm() {
       id: nanoid(),
       ...values,
     };
-    dispatch(addContact(newContact)); // Yeni kişiyi ekliyoruz
+    dispatch(addContact(newContact));
     actions.resetForm();
   };
 
@@ -29,7 +29,7 @@ function ContactForm() {
         <i className='bi bi-pencil-fill me-4'></i>Add New Contact
       </h2>
       <Formik
-        initialValues={initialFormValues} // Form başlangıç değerleri
+        initialValues={initialFormValues}
         validationSchema={formSchema}
         onSubmit={handleSubmit}
       >

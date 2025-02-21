@@ -7,8 +7,6 @@ import ContactForm from './components/ContactForm';
 import ContactList from './components/ContactList';
 import SearchBox from './components/SearchBox';
 import ErrorModal from './components/ErrorModal.jsx';
-//API
-// const ContactAPI = 'https://67b65d0607ba6e5908407ba2.mockapi.io/contacts';
 
 function App() {
   const error = useSelector((state) => state.error);

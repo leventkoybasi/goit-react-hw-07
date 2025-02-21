@@ -5,7 +5,7 @@ function Contact({ item, index, onDelete }) {
     <tr key={item.id} className='align-middle'>
       <th scope='row'>{index + 1}</th>
       <td>{item.name}</td>
-      <td>{item.phone}</td>
+      <td>{item.number}</td>
       <td className='text-wrap text-break fs-6'>
         <small>{item.email}</small>
       </td>

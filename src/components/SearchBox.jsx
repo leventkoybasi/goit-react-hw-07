@@ -1,6 +1,6 @@
 import { Formik, Form, Field } from 'formik';
 import { useDispatch } from 'react-redux';
-import { searchContact, searchContactDelete, initialState } from '../store/contactSlice.js';
+import { searchContact, searchContactDelete } from '../store/contactSlice.js'; //initialState
 import { showError } from '../store/errorSlice.js';
 
 const initialFormValues = {
@@ -22,13 +22,15 @@ function SearchBox() {
       dispatch(searchContact(''));
     } else if (/[^a-zA-Z0-9 ]/g.test(searchValue)) {
       dispatch(showError());
-    } else if (
-      !initialState.some((contact) =>
-        contact.name.toLowerCase().includes(searchValue.toLowerCase())
-      )
-    ) {
-      dispatch(showError());
-    } else {
+    }
+    // else if (
+    //   !initialState.some((contact) =>
+    //     contact.name.toLowerCase().includes(searchValue.toLowerCase())
+    //   )
+    // ) {
+    //   dispatch(showError());
+    // }
+    else {
       dispatch(searchContact(searchValue));
     }
   };

@@ -1,11 +1,18 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import Contact from './Contact';
 import style from '../App.module.css';
 import { useSelector, useDispatch } from 'react-redux';
-import { deleteContact } from '../store/contactSlice.js';
+import { deleteContact, getContact } from '../store/contactSlice.js';
+import { useEffect } from 'react';
 
 function ContactList() {
-  const contacts = useSelector((state) => state.contact);
+  const contacts = useSelector((state) => state.contact.data);
+  console.log(contacts);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getContact());
+  }, []);
 
   const handleDelete = (id) => {
     dispatch(deleteContact(id));
