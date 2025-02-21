@@ -1,13 +1,12 @@
 /* eslint-disable react/no-unescaped-entities */
 import style from '../App.module.css';
-import { useDispatch } from 'react-redux';
-import { hideError } from '../store/errorSlice.js';
-import { searchContactDelete } from '../store/contactSlice.js';
-// import { searchContact } from '../store/contactSlice.js';
+import { useDispatch, useSelector } from 'react-redux';
+import { hideError } from '../store/errorSlice';
+import { searchContactDelete } from '../store/contactSlice';
 
 function ErrorModal() {
-  // const error = useSelector((state) => state.error);
   const dispatch = useDispatch();
+  const error = useSelector((state) => state.error); // errorSlice'daki state'i dinliyoruz
 
   const handleClose = (e) => {
     if (
@@ -19,6 +18,8 @@ function ErrorModal() {
       dispatch(searchContactDelete());
     }
   };
+
+  if (!error) return null; // Eğer hata yoksa, modalı gösterme
 
   return (
     <>

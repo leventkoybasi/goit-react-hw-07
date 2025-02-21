@@ -1,7 +1,7 @@
 import { Formik, Form, Field } from 'formik';
 import { useDispatch } from 'react-redux';
-import { searchContact, searchContactDelete } from '../store/contactSlice.js'; //initialState
-import { showError } from '../store/errorSlice.js';
+import { searchContact, searchContactDelete, getContact } from '../store/contactSlice';
+import { showError } from '../store/errorSlice';
 
 const initialFormValues = {
   search: '',
@@ -11,7 +11,12 @@ function SearchBox() {
   const dispatch = useDispatch();
 
   const handleSearch = (values) => {
-    dispatch(searchContact(values.search));
+    if (values.search.trim() === '') {
+      dispatch(searchContactDelete());
+      dispatch(getContact());
+    } else {
+      dispatch(searchContact(values.search));
+    }
   };
 
   const handleChange = (e, setFieldValue) => {
@@ -19,18 +24,14 @@ function SearchBox() {
     setFieldValue('search', searchValue);
 
     if (searchValue.trim() === '') {
-      dispatch(searchContact(''));
+      // Eğer searchTerm boş ise, searchContactDelete ile state'i temizle
+      dispatch(searchContactDelete());
+      dispatch(getContact());
     } else if (/[^a-zA-Z0-9 ]/g.test(searchValue)) {
+      // Geçersiz karakter varsa, hata göster
       dispatch(showError());
-    }
-    // else if (
-    //   !initialState.some((contact) =>
-    //     contact.name.toLowerCase().includes(searchValue.toLowerCase())
-    //   )
-    // ) {
-    //   dispatch(showError());
-    // }
-    else {
+    } else {
+      // Geçerli bir searchTerm ise, searchContact thunk'ını çağır
       dispatch(searchContact(searchValue));
     }
   };
@@ -54,12 +55,19 @@ function SearchBox() {
                 onClick={() => {
                   setFieldValue('search', '');
                   dispatch(searchContactDelete());
+                  dispatch(getContact());
                 }}
               >
                 <i className='bi bi-x-square text-danger fs-4'></i>
               </span>
             ) : (
-              <span className='input-group-text' onClick={() => dispatch(searchContactDelete())}>
+              <span
+                className='input-group-text'
+                onClick={() => {
+                  dispatch(searchContactDelete());
+                  dispatch(getContact());
+                }}
+              >
                 <i className='bi bi-search fs-4 '></i>
               </span>
             )}
