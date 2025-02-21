@@ -4,7 +4,7 @@ import axios from 'axios';
 
 // export const initialState = contactData;
 const API_URL = 'https://67b65d0607ba6e5908407ba2.mockapi.io/contacts';
-
+//getContact
 const getContact = createAsyncThunk('contact/getContact', async () => {
   try {
     const response = await axios.get(API_URL);
@@ -13,14 +13,23 @@ const getContact = createAsyncThunk('contact/getContact', async () => {
     console.error('GetContact icerisinde hata meydabna geldi.', error);
   }
 });
-
+//addContact
 const addContact = createAsyncThunk('contact/addContact', async (contact) => {
   try {
     const response = await axios.post(API_URL, contact);
     return response.data;
   } catch (error) {
     console.error('addContact icerisinde hata meydana geldi.', error);
-    throw error;
+  }
+});
+
+//deleteContact
+const deleteContact = createAsyncThunk('contact/deleteContact', async (id) => {
+  try {
+    await axios.delete(`${API_URL}/${id}`);
+    return id;
+  } catch (error) {
+    console.error('deleteContact icerisinde hata meydana geldi.', error);
   }
 });
 
@@ -35,9 +44,9 @@ export const contactSlice = createSlice({
     // addContact: (state, action) => {
     //   state.push(action.payload);
     // },
-    deleteContact: (state, action) => {
-      return state.filter((contact) => contact.id !== action.payload);
-    },
+    // deleteContact: (state, action) => {
+    //   return state.filter((contact) => contact.id !== action.payload);
+    // },
     searchContact: (state, action) => {
       const searchTerm = action.payload ? action.payload.toLowerCase() : '';
       // if (searchTerm === '') {
@@ -79,10 +88,21 @@ export const contactSlice = createSlice({
       .addCase(addContact.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.error.message;
+      })
+      // deleteContact
+      .addCase(deleteContact.fulfilled, (state, action) => {
+        state.data = state.data.filter((contact) => contact.id !== action.payload);
+      })
+      .addCase(deleteContact.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(deleteContact.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.error.message;
       });
   },
 });
 
-export const { deleteContact, searchContact, searchContactDelete } = contactSlice.actions;
-export { getContact, addContact };
+export const { searchContact, searchContactDelete } = contactSlice.actions;
+export { getContact, addContact, deleteContact };
 export default contactSlice.reducer;

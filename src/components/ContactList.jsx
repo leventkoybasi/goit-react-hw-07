@@ -11,7 +11,7 @@ function ContactList() {
 
   useEffect(() => {
     dispatch(getContact());
-  }, [dispatch]);
+  }, []);
 
   const handleDelete = (id) => {
     dispatch(deleteContact(id));
