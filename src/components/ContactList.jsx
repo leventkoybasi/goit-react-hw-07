@@ -2,11 +2,15 @@
 import Contact from './Contact';
 import style from '../App.module.css';
 import { useSelector, useDispatch } from 'react-redux';
+import { selectContacts, selectContactsStatus } from '../store/contactSlice.js';
 import { deleteContact, getContact } from '../store/contactSlice.js';
 import { useEffect } from 'react';
+import Loading from './Loading.jsx';
 
 function ContactList() {
-  const contacts = useSelector((state) => state.contact.data);
+  // const contacts = useSelector((state) => state.contact.data);
+  const contacts = useSelector(selectContacts);
+  const contactsStatus = useSelector(selectContactsStatus);
   console.log(contacts);
   const dispatch = useDispatch();
 
@@ -50,6 +54,7 @@ function ContactList() {
           ))}
         </tbody>
       </table>
+      {contactsStatus === 'loading' ? <Loading /> : null}
     </div>
   );
 }

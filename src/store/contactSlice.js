@@ -118,6 +118,7 @@ export const contactSlice = createSlice({
       // deleteContact
       .addCase(deleteContact.fulfilled, (state, action) => {
         state.data = state.data.filter((contact) => contact.id !== action.payload);
+        state.status = 'succeeded';
       })
       .addCase(deleteContact.pending, (state) => {
         state.status = 'loading';
@@ -141,6 +142,14 @@ export const contactSlice = createSlice({
   },
 });
 
+//selectors
+const selectContacts = (state) => state.contact.data;
+const selectContactsStatus = (state) => state.contact.status;
+
+//senkron actions'lar
 export const { searchContactDelete } = contactSlice.actions;
+
+//asenkron thunk actions'lar
 export { getContact, addContact, deleteContact, searchContact };
+export { selectContacts, selectContactsStatus };
 export default contactSlice.reducer;
